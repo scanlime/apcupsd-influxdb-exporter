@@ -21,8 +21,8 @@ except:
 # Send to influxdb
 
 dbname = os.getenv('INFLUXDB_DATABASE', 'upsnew')
-user = ""
-password =""
+user = os.getenv('INFLUXDB_USER', '')
+password = os.getenv('INFLUXDB_PASSWORD', '')
 port = os.getenv('INFLUXDB_PORT', 8086)
 host = os.getenv('INFLUXDB_HOST', '10.0.1.11')
 client = InfluxDBClient(host, port, user, password, dbname)
