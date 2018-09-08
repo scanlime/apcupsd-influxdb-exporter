@@ -27,9 +27,6 @@ port = os.getenv('INFLUXDB_PORT', 8086)
 host = os.getenv('INFLUXDB_HOST', '10.0.1.11')
 client = InfluxDBClient(host, port, user, password, dbname)
 
-client.create_database(dbname)
-
-
 print "Hostname: ", HOSTNAME
 print "database name: ", dbname
 print "db host:", host
