@@ -37,13 +37,10 @@ while True:
   ups = apc.parse(apc.get(host=apc_host), strip_units=True)
   if os.environ['WATTS']:
     ups['NOMPOWER'] = os.environ['WATTS']
-  watts = float(float(ups['NOMPOWER']) * float(0.01 *float(ups['LOADPCT'])))
   json_body =  [
                       {
                           'measurement': 'APC-NEW',
                           'fields': {
-                              'WATTS' : float(watts),
-                              'LOADPCT' : float(ups['LOADPCT']),
                               'BCHARGE' : float(ups['BCHARGE']),
                               'TONBATT' : float(ups['TONBATT']),
                               'TIMELEFT' : float(ups['TIMELEFT']),
@@ -54,6 +51,13 @@ while True:
                           }
                       }
                   ]
+  if 'LOADPCT' in ups:
+    watts = float(float(ups['NOMPOWER']) * float(0.01 *float(ups['LOADPCT'])))
+    json_body[0]['fields'].update({
+      'WATTS': float(watts),
+      'LOADPCT' : float(ups['LOADPCT']),
+    })
+
   print json_body
   print client.write_points(json_body)
   time.sleep(5)
