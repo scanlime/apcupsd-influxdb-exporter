@@ -25,6 +25,7 @@ user = os.getenv('INFLUXDB_USER', '')
 password = os.getenv('INFLUXDB_PASSWORD', '')
 port = os.getenv('INFLUXDB_PORT', 8086)
 host = os.getenv('INFLUXDB_HOST', '10.0.1.11')
+apc_host = os.getenv('APC_HOST', 'localhost')
 client = InfluxDBClient(host, port, user, password, dbname)
 
 print "Hostname: ", HOSTNAME
@@ -33,7 +34,7 @@ print "db host:", host
 #print ups
 
 while True:
-  ups = apc.parse(apc.get(host="localhost"), strip_units=True)
+  ups = apc.parse(apc.get(host=apc_host), strip_units=True)
   if os.environ['WATTS']:
     ups['NOMPOWER'] = os.environ['WATTS']
   watts = float(float(ups['NOMPOWER']) * float(0.01 *float(ups['LOADPCT'])))
